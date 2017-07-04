@@ -1,8 +1,6 @@
 FROM  node:8.1
 
-ENV SCALA_VERSION 2.11.7
 ENV SBT_VERSION 0.13.15
-ENV SBT_OPTS "-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled"
 ENV EMBER_CLI_VERSION 2.12.1
 ENV BOWER_VERSION 1.8.0
 ENV LANG C.UTF-8
@@ -57,27 +55,14 @@ RUN set -ex; \
 # see CA_CERTIFICATES_JAVA_VERSION notes above
 RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
-# Install Scala
-## Piping curl directly in tar
-#RUN \
-#  curl -fsL http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /root/ && \
-#  echo >> /root/.bashrc && \
-#  echo 'export PATH=~/scala-$SCALA_VERSION/bin:$PATH' >> /root/.bashrc
-
 # Install sbt
-#
 RUN \
   curl -L -o sbt-$SBT_VERSION.deb http://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb && \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
   apt-get update && \
-  apt-get install sbt
+  apt-get install sbt && \
   sbt sbtVersion
 
 # Install Bower & Ember-CLI
 RUN npm i -g bower@$BOWER_VERSION ember-cli@$EMBER_CLI_VERSION
-
-#EXPOSE 4200 35729 9000
-# run ember server on container start
-#ENTRYPOINT ["/usr/local/bin/ember"]
-#CMD ["server"]
