@@ -5,14 +5,27 @@ ENV EMBER_CLI_VERSION 2.12.1
 ENV BOWER_VERSION 1.8.0
 ENV LANG C.UTF-8
 
+RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bzip2 \
     unzip \
     xz-utils \
     wget \
+    python-dev \
+  && apt-get autoremove \
+  && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
+# Install Python pip
+RUN \
+  curl -O https://bootstrap.pypa.io/get-pip.py && \
+  python get-pip.py --user
+
+# Install awsebcli
+RUN ~/.local/bin/pip install awsebcli --upgrade --user
+
+
 
 # add a simple script that can auto-detect the appropriate JAVA_HOME value
 # based on whether the JDK or only the JRE is installed
