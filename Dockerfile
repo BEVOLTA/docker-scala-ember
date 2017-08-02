@@ -85,6 +85,7 @@ RUN \
 
 # Install Bower & Ember-CLI
 RUN npm i -g bower@$BOWER_VERSION ember-cli@$EMBER_CLI_VERSION
+RUN chown -R node:node /usr/local/lib/node_modules/ember-cli/node_modules/
 
 WORKDIR ~
 
