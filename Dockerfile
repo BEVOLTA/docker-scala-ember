@@ -8,6 +8,11 @@ ENV LANG C.UTF-8
 RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    ssh \
+    tar \
+    gzip \
+    ca-certificates \
     bzip2 \
     unzip \
     xz-utils \
@@ -73,9 +78,14 @@ RUN \
   curl -L -o sbt-$SBT_VERSION.deb http://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb && \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
+  chown -R root:root ~ &&\
   apt-get update && \
   apt-get install sbt && \
   sbt sbtVersion
 
 # Install Bower & Ember-CLI
 RUN npm i -g bower@$BOWER_VERSION ember-cli@$EMBER_CLI_VERSION
+
+WORKDIR ~
+
+CMD ["sbt", "sbtVersion"]
