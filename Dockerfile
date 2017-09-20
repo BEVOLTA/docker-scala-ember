@@ -6,7 +6,7 @@ ENV SBT_VERSION=0.13.15 \
     LANG=C.UTF-8
 
 # Install libs needed by CircleCI
-RUN apk add --no-cache --update bash git openssh tar xz nodejs nodejs-npm
+RUN apk add --no-cache --update bash git openssh tar zip xz nodejs nodejs-npm
 
 # Install ember and bower
 RUN npm i -g bower@$BOWER_VERSION ember-cli@$EMBER_CLI_VERSION
