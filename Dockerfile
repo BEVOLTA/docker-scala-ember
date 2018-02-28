@@ -1,6 +1,6 @@
 FROM frolvlad/alpine-oraclejdk8:slim
 
-ENV SBT_VERSION=1.0.3 \
+ENV SBT_VERSION=1.1.0 \
     EMBER_CLI_VERSION=2.16.2 \
     BOWER_VERSION=1.8.0 \
     LANG=C.UTF-8
